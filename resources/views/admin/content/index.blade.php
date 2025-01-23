@@ -2,6 +2,10 @@
 
 @section('content')
     <h1>Manage Content</h1>
+    <form action="{{ route('admin.content.index') }}" method="GET">
+    <input type="text" name="search" placeholder="Search content..." value="{{ request('search') }}">
+    <button type="submit">Search</button>
+</form>
     <table class="table">
         <thead>
             <tr>

@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
-    public function index()
-    {
-        $contents = Content::all();
-        return view('admin.content.index', compact('contents'));
+    public function index(Request $request)
+{
+    $query = Content::query();
+
+    if ($request->has('search')) {
+        $query->where('section', 'like', '%' . $request->input('search') . '%')
+              ->orWhere('key', 'like', '%' . $request->input('search') . '%');
     }
+
+    $contents = $query->paginate(10);
+    return view('admin.content.index', compact('contents'));
+}
 
     public function edit($id)
     {

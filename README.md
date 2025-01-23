@@ -53,8 +53,8 @@ Follow these steps to set up the project locally:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/anesu398/practical_assignment.git
+cd practical_assignment
 ```
 
 ### 2. Install PHP Dependencies
