@@ -1,21 +1,44 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1>Edit Content</h1>
-    <form action="{{ route('admin.content.update', $content->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    <div class="container">
+        <h1 class="mb-4">Edit Content</h1>
 
-        <div class="form-group">
-            <label for="value">Value</label>
-            @if ($content->key === 'image')
-                <input type="file" name="image" class="form-control">
-                <img src="{{ asset($content->value) }}" alt="Current Image" width="100">
-            @else
-                <textarea name="value" class="form-control">{{ $content->value }}</textarea>
-            @endif
-        </div>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('admin.content.update', $content->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group mb-3">
+                <label for="value" class="form-label">Value</label>
+
+                @if (Str::startsWith($content->value, 'assets/img/'))
+                    <div class="mb-2">
+                        <img src="{{ asset($content->value) }}" alt="Current Image" class="img-thumbnail" width="150">
+                    </div>
+                    <input type="file" name="image" class="form-control">
+                @else
+                    <textarea name="value" class="form-control" rows="5">{{ old('value', $content->value) }}</textarea>
+                @endif
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ route('admin.content.index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 @endsection
